@@ -8,7 +8,7 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		Problems problems = new Problems();
-		System.out.println(problems.problem001());
+		System.out.println(problems.problem002());
 	}
 
 }

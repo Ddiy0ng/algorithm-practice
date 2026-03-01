@@ -20,4 +20,28 @@ public class Problems {
 		
 		return sum;
 	}
+	
+	// 과목 개수와 공백으로 구분된 성적들을 입력받고 맞춤형 계산법으로 평균 구해 출력하기
+	protected double problem002() {
+		System.out.print("1. enter the lectures count: ");
+		int N = sc.nextInt();
+		
+		System.out.print("2. enter the scores: ");
+		double[] scores = new double[N];
+		double max = 0;
+		for(int i = 0; i < N; i++) {
+			scores[i] = sc.nextDouble();
+			if (max < scores[i])
+				max = scores[i];
+		}
+		
+		// 성적 수정하기
+		double sum = 0.0;
+		for (int i = 0; i < N; i++) {
+			scores[i] = scores[i] / max * 100;
+			sum += scores[i];
+		}
+
+		return sum / N;
+	}
 }
