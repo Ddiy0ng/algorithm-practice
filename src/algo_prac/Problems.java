@@ -1,19 +1,19 @@
 package algo_prac;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
 
 public class Problems {
-
-	final Scanner sc = new Scanner(System.in);
+	
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 	// 숫자 개수와, 공백으로 구분없는 숫자들을 입력받고 숫자 합 출력하기
-	protected void problem001() {
-		System.out.print("1. enter the size: ");
-		int N = sc.nextInt();
-		
-		System.out.print("2. enter the numbers: ");
-		String nums = sc.next();
-		
+	public void problem001() throws IOException {
+		int N = Integer.parseInt(br.readLine());
+		String nums = br.readLine();
 		int sum = 0;
 		for (int i = 0; i < N; i++)
 			sum += nums.charAt(i)-'0';	// '0' == 48, 0 == 0	ASCII
@@ -22,15 +22,14 @@ public class Problems {
 	}
 	
 	// 과목 개수와 공백으로 구분된 성적들을 입력받고 맞춤형 계산법으로 평균 구해 출력하기
-	protected void problem002() {
-		System.out.print("1. enter the lectures count: ");
-		int N = sc.nextInt();
+	public void problem002() throws IOException {
+		int N = Integer.parseInt(br.readLine());
 		
-		System.out.print("2. enter the scores: ");
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		double[] scores = new double[N];
 		double max = 0;
 		for(int i = 0; i < N; i++) {
-			scores[i] = sc.nextDouble();
+			scores[i] = Double.parseDouble(st.nextToken());
 			if (max < scores[i])
 				max = scores[i];
 		}
@@ -46,27 +45,54 @@ public class Problems {
 	}
 	
 	// 구간합 구하기1
-	protected void problem003() {
-		int N = sc.nextInt();	// 수 개수
-		int count = sc.nextInt(); // 질의 개수
+	public void problem003() throws IOException {
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 		
 		int[] arr = new int[N];
-		arr[0] = sc.nextInt();
+		st = new  StringTokenizer(br.readLine());
+		arr[0] = Integer.parseInt(st.nextToken());
 		for (int i = 1; i < N; i++)
-			arr[i] = arr[i - 1] + sc.nextInt();
+			arr[i] = arr[i - 1] + Integer.parseInt(st.nextToken());
 		
-		int[] results = new int[count];
-		for (int k = 0; k > count; k++) {
-			int i = sc.nextInt();
-			int j = sc.nextInt();
+		int[] results = new int[M];
+		for (int k = 0; k < M; k++) {
+			st = new StringTokenizer(br.readLine());
+			int i = Integer.parseInt(st.nextToken());
+			int j = Integer.parseInt(st.nextToken());
 			
-			if( i == 0)
-				results[k] = arr[j];
+			if(i == 1)
+				results[k] = arr[j - 1];
 			else
-				results[k] = arr[j] - arr[i - 1];
+				results[k] = arr[j - 1] - arr[i - 2];
 		}
 		
-		for(int i = 0; i < count; i++)
+		for(int i = 0; i < M; i++)
 			System.out.println(results[i]);
+	}
+	
+	// 구간합 구하기2
+	public void problem004() throws IOException {
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+
+		int[][] rangeSum = new int[N + 1][N + 1];
+		for(int i = 1; i <= N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j = 1; j <= N; j++) 
+				rangeSum[i][j] = rangeSum[i - 1][j] + rangeSum[i][j - 1] - rangeSum[i - 1][j - 1] + Integer.parseInt(st.nextToken());
+		}
+
+		for(int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			int x1 = Integer.parseInt(st.nextToken());
+			int y1 = Integer.parseInt(st.nextToken());
+			int x2 = Integer.parseInt(st.nextToken());
+			int y2 = Integer.parseInt(st.nextToken());
+
+			System.out.println(rangeSum[x2][y2] - rangeSum[x2][y1 - 1] - rangeSum[x1 - 1][y2] + rangeSum[x1 - 1][y1 - 1]);
+		}
 	}
 }
